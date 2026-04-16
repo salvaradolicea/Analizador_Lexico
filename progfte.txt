@@ -1,0 +1,14 @@
+pf2025 Ejemp1
+
+decl
+int a,b,c;
+cad d;
+booleano e;
+
+inicio
+a := 5;
+b := 3;
+impcad(a);
+leerdig(b);
+d := a*(b-c);
+end
