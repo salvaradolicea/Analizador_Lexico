@@ -17,7 +17,6 @@ public class FileManager {
     }
 
     public static void escribirArchivo(String nombre, List<String> contenido) throws IOException {
-
         BufferedWriter bw = new BufferedWriter(new FileWriter(nombre));
 
         for (String linea : contenido) {

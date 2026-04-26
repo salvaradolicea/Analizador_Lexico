@@ -4,22 +4,31 @@ public class Lexer {
 
     private SymbolTable tablaSimbolos = new SymbolTable();
 
-    private static final Set<String> reservadas = Set.of(
-            "pf2025","decl","inicio","end",
-            "impdig","impcad","leerdig"
-    );
-
     private static final Set<String> tipos = Set.of(
-            "int","cad","booleano"
+            "int", "cad", "booleano"
     );
 
     public List<Token> analizar(List<String> lineas) {
 
         List<Token> tokens = new ArrayList<>();
-
         int numLinea = 1;
+        boolean enComentario = false;
 
-        for(String linea : lineas){
+        for (String linea : lineas) {
+
+            // Manejo de comentarios /* */
+            if (linea.contains("/*")) {
+                enComentario = true;
+            }
+
+            if (enComentario) {
+                if (linea.contains("*/")) {
+                    enComentario = false;
+                }
+                numLinea++;
+                continue;
+            }
+
             linea = linea
                     .replace(";", " ; ")
                     .replace(",", " , ")
@@ -31,15 +40,23 @@ public class Lexer {
                     .replace("/", " / ")
                     .replace(":=", " := ");
 
-    String[] palabras = linea.split("\\s+");
-            
+            String[] palabras = linea.split("\\s+");
 
-            for(String palabra : palabras){
+            for (String palabra : palabras) {
 
-                if(palabra.isEmpty())
+                if (palabra.isEmpty())
                     continue;
 
-                Token token = reconocerToken(palabra,numLinea);
+                Token token = reconocerToken(palabra, numLinea);
+
+                if (token.getTipo() == TokenType.ERROR) {
+                    ErrorLexico error = new ErrorLexico(
+                            "Símbolo no reconocido: " + palabra,
+                            numLinea
+                    );
+                    error.mostrarError();
+                    System.exit(1);
+                }
 
                 tokens.add(token);
             }
@@ -47,74 +64,78 @@ public class Lexer {
             numLinea++;
         }
 
-        tokens.add(new Token(TokenType.EOF,"EOF",numLinea));
-
+        tokens.add(new Token(TokenType.EOF, "EOF", numLinea));
         return tokens;
     }
 
-   private Token reconocerToken(String lexema,int linea){
+    private Token reconocerToken(String lexema, int linea) {
 
-    if(lexema.equals("pf2025"))
-        return new Token(TokenType.PROG, lexema, linea);
+        switch (lexema) {
 
-    if(lexema.equals("decl"))
-        return new Token(TokenType.DECL, lexema, linea);
+            case "pf2025":
+                return new Token(TokenType.PROG, lexema, linea);
 
-    if(lexema.equals("inicio"))
-        return new Token(TokenType.INICIO, lexema, linea);
+            case "decl":
+                return new Token(TokenType.DECL, lexema, linea);
 
-    if(lexema.equals("end"))
-        return new Token(TokenType.END, lexema, linea);
+            case "inicio":
+                return new Token(TokenType.INICIO, lexema, linea);
 
-    if(lexema.equals("impdig"))
-        return new Token(TokenType.IMPDIG, lexema, linea);
+            case "end":
+                return new Token(TokenType.END, lexema, linea);
 
-    if(lexema.equals("impcad"))
-        return new Token(TokenType.IMPCAD, lexema, linea);
+            case "impdig":
+                return new Token(TokenType.IMPDIG, lexema, linea);
 
-    if(lexema.equals("leerdig"))
-        return new Token(TokenType.LEERDIG, lexema, linea);
+            case "impcad":
+                return new Token(TokenType.IMPCAD, lexema, linea);
 
-    if(tipos.contains(lexema))
-        return new Token(TokenType.TIPO, lexema, linea);
+            case "leerdig":
+                return new Token(TokenType.LEERDIG, lexema, linea);
 
-    if(lexema.matches("[0-9]+"))
-        return new Token(TokenType.CENT, lexema, linea);
+            case "+":
+                return new Token(TokenType.MAS, lexema, linea);
 
-    if(lexema.matches("[a-zA-Z][a-zA-Z0-9]*")){
-        tablaSimbolos.agregar(lexema);
-        return new Token(TokenType.ID, lexema, linea);
+            case "-":
+                return new Token(TokenType.MENOS, lexema, linea);
+
+            case "*":
+                return new Token(TokenType.MUL, lexema, linea);
+
+            case "/":
+                return new Token(TokenType.DIV, lexema, linea);
+
+            case ":=":
+                return new Token(TokenType.ASIG, lexema, linea);
+
+            case ";":
+                return new Token(TokenType.PC, lexema, linea);
+
+            case ",":
+                return new Token(TokenType.COMA, lexema, linea);
+
+            case "(":
+                return new Token(TokenType.PAREN, lexema, linea);
+
+            case ")":
+                return new Token(TokenType.TESIS, lexema, linea);
+        }
+
+        if (tipos.contains(lexema))
+            return new Token(TokenType.TIPO, lexema, linea);
+
+        if (lexema.matches("[0-9]+"))
+            return new Token(TokenType.CENT, lexema, linea);
+
+        if (lexema.matches("[a-zA-Z][a-zA-Z0-9]*")) {
+            tablaSimbolos.agregar(lexema);
+            return new Token(TokenType.ID, lexema, linea);
+        }
+
+        return new Token(TokenType.ERROR, lexema, linea);
     }
-    switch(lexema){
 
-    case "+":
-        return new Token(TokenType.MAS,lexema,linea);
-
-    case "-":
-        return new Token(TokenType.MENOS,lexema,linea);
-
-    case "*":
-        return new Token(TokenType.MUL,lexema,linea);
-
-    case "/":
-        return new Token(TokenType.DIV,lexema,linea);
-
-    case ":=":
-        return new Token(TokenType.ASIG,lexema,linea);
-
-    case ";":
-        return new Token(TokenType.PC,lexema,linea);
-
-    case ",":
-        return new Token(TokenType.COMA,lexema,linea);
-
-    case "(":
-        return new Token(TokenType.PAREN,lexema,linea);
-
-    case ")":
-        return new Token(TokenType.TESIS,lexema,linea);
-}
-
-    return new Token(TokenType.ERROR, lexema, linea);
-}
+    public SymbolTable getTablaSimbolos() {
+        return tablaSimbolos;
+    }
 }
