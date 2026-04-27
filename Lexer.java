@@ -1,13 +1,15 @@
+//Realiza el análisis léxico, transformando el código fuente
+//en una lista de tokens
 import java.util.*;
 
 public class Lexer {
-
+    //se usa para registrar identificadores
     private SymbolTable tablaSimbolos = new SymbolTable();
 
     private static final Set<String> tipos = Set.of(
             "int", "cad", "booleano"
     );
-
+    //este metodo recorre el programa fuente, identifica tokens y maneja los comentarios
     public List<Token> analizar(List<String> lineas) {
 
         List<Token> tokens = new ArrayList<>();
@@ -67,7 +69,7 @@ public class Lexer {
         tokens.add(new Token(TokenType.EOF, "EOF", numLinea));
         return tokens;
     }
-
+    //este método clasifica cada lexema según el tipo
     private Token reconocerToken(String lexema, int linea) {
 
         switch (lexema) {
@@ -134,7 +136,7 @@ public class Lexer {
 
         return new Token(TokenType.ERROR, lexema, linea);
     }
-
+    //devuelve la tabla de símbolos construida
     public SymbolTable getTablaSimbolos() {
         return tablaSimbolos;
     }

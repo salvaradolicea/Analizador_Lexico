@@ -1,3 +1,10 @@
+/*
+define todas las categorías posibles de tokens
+que el analizador léxico puede reconocer
+El lexer usar TokenType para clasificar cada lexema
+La clase Token guarda un TokenType junto con el lexema y la línea
+ErrorLexico se activa cuando el Lexer asigna el tipo ERROR
+ */
 public enum TokenType {
 
     // Palabras reservadas
