@@ -37,7 +37,7 @@ public class Main {
             }
             FileManager.escribirArchivo("progfte.dep", depurado);
 
-            System.out.println("✅ Análisis léxico completado correctamente.");
+            System.out.println("Análisis léxico completado correctamente.");
 
         } catch (Exception e) {
             e.printStackTrace();
