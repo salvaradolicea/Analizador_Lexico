@@ -1,5 +1,5 @@
 pf2025 Ejemp1
-
+/*comentario*/
 decl
 int a,b,c;
 cad d;
