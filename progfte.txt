@@ -9,6 +9,8 @@ inicio
 a := 5;
 b := 3;
 impcad(a);
+
+
 leerdig(b);
 d := a*(b-c);
 end

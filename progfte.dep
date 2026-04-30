@@ -1,13 +1,1 @@
-pf2025Ejemp1
-decl
-inta,b,c;
-cadd;
-booleanoe;
-
-inicio
-a:=5;
-b:=3;
-impcad(a);
-leerdig(b);
-d:=a*(b-c);
-end
+pf2025Ejemp1declinta,b,c;cadd;booleanoe;inicioa:=5;b:=3;impcad(a);leerdig(b);d:=a*(b-c);end

@@ -1,9 +1,9 @@
-//esta clase maneja la lectura y escritura de archivos
 import java.io.*;
 import java.util.*;
 
 public class FileManager {
-    //devuelve una lista con todas las líneas del archivo
+
+    // Devuelve una lista con todas las líneas del archivo
     public static List<String> leerArchivo(String nombre) throws IOException {
         List<String> lineas = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(nombre));
@@ -16,7 +16,8 @@ public class FileManager {
         br.close();
         return lineas;
     }
-    //escribe una lista de cadenas en un archivo
+
+    // Escribe una lista de cadenas en un archivo (cada línea por separado)
     public static void escribirArchivo(String nombre, List<String> contenido) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(nombre));
 
@@ -27,6 +28,17 @@ public class FileManager {
 
         bw.close();
     }
+
+    // Escribe un archivo depurado en UNA sola línea sin espacios ni saltos
+    public static void escribirArchivoDep(String nombre, List<String> contenido) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(nombre));
+
+        StringBuilder sb = new StringBuilder();
+        for (String linea : contenido) {
+            sb.append(linea.replaceAll("\\s+", "")); // quita espacios internos
+        }
+
+        bw.write(sb.toString()); // todo en una sola línea
+        bw.close();
+    }
 }
-//esto permite cargar el programa fuente progfte.txt
-//y guardar los resultados del análisis .tok, .tab, .dep

@@ -1,7 +1,7 @@
-No.   | VARIABLE             | TIPO         | VALOR INIT | REF    | LINEA
+No.   | VARIABLE             | TIPO         | VALOR INIT | REF    | LINEA
 ---------------------------------------------------------------------------
-1     | a                    | int          | 0          | 300    | 4
-2     | b                    | int          | 0          | 300    | 4
-3     | c                    | int          | 0          | 300    | 4
-4     | d                    | cad          | ""         | 300    | 5
-5     | e                    | booleano     | false      | 300    | 6
+1     | a                    | int          | 0          | 300    | 4
+2     | b                    | int          | 0          | 300    | 4
+3     | c                    | int          | 0          | 300    | 4
+4     | d                    | cad          | ""         | 300    | 5
+5     | e                    | booleano     | false      | 300    | 6

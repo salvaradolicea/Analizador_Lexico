@@ -24,7 +24,7 @@ public class Main {
                     depurado.add(linea.replaceAll("\\s+", ""));
                 }
             }
-            FileManager.escribirArchivo("progfte.dep", depurado);
+            FileManager.escribirArchivoDep("progfte.dep", depurado);
 
             // =====================================================
             // 4. Construir tabla de símbolos FORMAL
